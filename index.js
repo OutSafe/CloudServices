@@ -24,17 +24,8 @@ app.get('/:buildingId/exit', function(req, res) {
 	
 	exitRef = database.ref(req.params.buildingId + '/exit/')
 	exitRef.once('value', function(snapshot) {
-		ret = []
-		function compileChildren(key, child) {
-			ret[key] = child
-		}
-		snapshot.forEach(function(c) {
-			console.log(c.key + " " + c.val())
-			compileChildren(c.key, c.val())
-		})
-		return ret
+		res.status(200).json(snapshot.val())
 	})
-	res.status(200).json(ret)
 })
 
 app.post('/:buildingId/exit', function(req, res) {
@@ -67,15 +58,9 @@ app.get('/:buildingId/landmark', function(req, res) {
 	//Here is where we need to do auth
 	//req.headers.TOKEN
 	//firebase.auth().verifyIdToken()
-	ret = [];
-	function compileChildren(child) {
-		ret.push(child);
-	}
 	exitRef = database.ref(req.params.buildingId + '/landmark/')
 	exitRef.once('value', function(snapshot) {
-		snapshot.forEach(function(c) {
-			compileChildren(c.val());
-		})
+		res.status(200).json(snapshot.val())
 	})
 	res.status(200).json(ret)
 })
@@ -108,15 +93,10 @@ app.get('/:buildingId/event', function(req, res) {
 	//Here is where we need to do auth
 	//req.headers.TOKEN
 	//firebase.auth().verifyIdToken()
-	ret = [];
-	function compileChildren(child) {
-		ret.push(child);
-	}
+
 	eventsRef = database.ref(req.params.buildingId + '/event/')
 	eventsRef.once('value', function(snapshot) {
-		snapshot.forEach(function (c) {
-			compileChildren(c.val())
-		})
+		res.status(200).json(snapshot.val())
 	})
 	res.status(200).json(ret)
 })
