@@ -1,0 +1,21 @@
+{
+  "name": "codefest2018",
+  "version": "1.0.0",
+  "description": "AR Evac App",
+  "main": "index.js",
+  "scripts": {
+	"start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "AR",
+    "Evacuation",
+    "Codefest"
+  ],
+  "author": "nate-trojian",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^5.12.0",
+    "firebase-functions": "^1.0.1"
+  }
+}
