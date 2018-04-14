@@ -1,0 +1,52 @@
+<html>
+<head>
+
+</head>
+<body>
+<p>
+GET /{buildingId}/exit
+Returns: List of Exit objects
+</p>
+<p>
+POST /{buildingId}/exit
+Body:
+{
+	'lat',
+	'lon',
+	'el',
+	['type']
+}
+Returns: Exit Object created
+</p>
+<p>
+GET /{buildingId}/event
+Returns: List of Event objects
+</p>
+<p>
+POST /{buildingId}/event
+Body:
+{
+	'lat',
+	'lon',
+	'el',
+	['type']
+}
+Returns: Event Object created
+</p>
+<p>
+GET /{buildingId}/landmark
+Returns: List of Landmark objects
+</p>
+<p>
+POST /{buildingId}/landmark
+Body:
+{
+	'lat',
+	'lon',
+	'el',
+	['type']
+}
+Returns: Landmark Object created
+</p>
+</body>
+</html>

@@ -90,8 +90,7 @@ app.post('/:buildingId/landmark', function(req, res) {
 		'lat': body.lat,
 		'lon': body.lon,
 		'el': body.el,
-		'label': (body.label ? body.label: "corner"),
-		'type': body.type
+		'label': (body.label ? body.label: "corner")
 	}).then(function() {
 		retRef.once('value', function(snapshot) {
 			ret = snapshot.val()
@@ -153,6 +152,10 @@ app.delete('/:buildingId/event', function(req, res) {
 	//Make child node under exit
 	eventsRef.del()
 	res.status(200)
+})
+
+app.get('/', function(req, res) {
+	res.redirect('usage.html')
 })
 
 app.listen(PORT, () => console.log('Server Initialized'))
