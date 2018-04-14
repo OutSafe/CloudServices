@@ -37,7 +37,7 @@ app.post('/:buildingId/exit', function(req, res) {
 	//Verification happens here - SIKE
 	body = req.body
 	//Make child node under exit
-	console.log(body)
+	//console.log(body)
 	retRef = exitRef.push()
 	retRef.set({
 		'lat': body.lat,
@@ -62,7 +62,6 @@ app.get('/:buildingId/landmark', function(req, res) {
 	exitRef.once('value', function(snapshot) {
 		res.status(200).json(snapshot.val())
 	})
-	res.status(200).json(ret)
 })
 
 app.post('/:buildingId/landmark', function(req, res) {
@@ -98,7 +97,6 @@ app.get('/:buildingId/event', function(req, res) {
 	eventsRef.once('value', function(snapshot) {
 		res.status(200).json(snapshot.val())
 	})
-	res.status(200).json(ret)
 })
 
 app.post('/:buildingId/event', function(req, res) {
