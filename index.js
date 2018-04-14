@@ -1,4 +1,5 @@
 var express = require('express')
+var path = require('path')
 var app = express()
 var bodyParser = require('body-parser')
 
@@ -20,15 +21,18 @@ app.get('/:buildingId/exit', function(req, res) {
 	//Here is where we need to do auth
 	//req.headers.TOKEN
 	//firebase.auth().verifyIdToken()
-	ret = [];
-	function compileChildren(child) {
-		ret.push(child);
-	}
+	
 	exitRef = database.ref(req.params.buildingId + '/exit/')
 	exitRef.once('value', function(snapshot) {
+		ret = []
+		function compileChildren(key, child) {
+			ret[key] = child
+		}
 		snapshot.forEach(function(c) {
-			compileChildren(c.val());
+			console.log(c.key + " " + c.val())
+			compileChildren(c.key, c.val())
 		})
+		return ret
 	})
 	res.status(200).json(ret)
 })
@@ -155,7 +159,7 @@ app.delete('/:buildingId/event', function(req, res) {
 })
 
 app.get('/', function(req, res) {
-	res.redirect('usage.html')
+	res.sendFile(__dirname + '/usage.html')
 })
 
 app.listen(PORT, () => console.log('Server Initialized'))
