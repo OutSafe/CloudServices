@@ -132,8 +132,9 @@ app.delete('/:buildingId/event', function(req, res) {
 	//Verification happens here - SIKE
 	eventType = req.body.eventType
 	//Make child node under exit
-	eventsRef.del()
-	res.status(200)
+	eventsRef.remove().then(function() {
+		res.status(200).json({eventId: false})
+	})
 })
 
 app.get('/', function(req, res) {
