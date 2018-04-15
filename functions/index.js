@@ -38,12 +38,19 @@ exports.postEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 			}
 		});
 		//TODO notification here
-		// admin.messaging().send({
-			// topic: buildingId,
-			// data: {
-				// changed: (ret?'true':'false')
-			// }
-		// });
+		database.ref('_tokens').once('value', function(snapshot) {
+			snapshot.forEach(function(child) {
+				var token = child.val()['token'];
+				console.log(token);
+				admin.messaging().send({
+					token: token,
+					data: {
+						changed: 'true'
+					}
+				});
+			});
+		});
+		
 		return true;
 })
 
@@ -72,12 +79,17 @@ exports.removeEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 				}
 			});
 		});
-		//TODO notification here
-		// admin.messaging().send({
-			// topic: buildingId,
-			// data: {
-				// changed: (ret?'true':'false')
-			// }
-		// });
+		database.ref('_tokens').once('value', function(snapshot) {
+			snapshot.forEach(function(child) {
+				var token = child.val()['token'];
+				console.log(token);
+				admin.messaging().send({
+					token: token,
+					data: {
+						changed: 'true'
+					}
+				});
+			});
+		});
 		return true;
 })
