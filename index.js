@@ -130,8 +130,6 @@ app.delete('/:buildingId/event', function(req, res) {
 	eventId = req.body.eventId
 	eventsRef = database.ref(req.params.buildingId + '/event/' + eventId)
 	//Verification happens here - SIKE
-	eventType = req.body.eventType
-	//Make child node under exit
 	eventsRef.remove().then(function() {
 		res.status(200).json({eventId: false})
 	})
