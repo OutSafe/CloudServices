@@ -6,7 +6,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 var firebase = require('firebase-admin')
-var firebase_config = require('private/Codefest2018-c9de1c4a80a1.json')
+var firebase_config = require('./private/Codefest2018-c9de1c4a80a1.json')
 
 firebase.initializeApp({
   credential: firebase.credential.cert(firebase_config),
@@ -137,6 +137,16 @@ app.delete('/:buildingId/event', function(req, res) {
 
 app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/usage.html')
+})
+
+app.post('/token', function(req, res) {
+	token = req.body.token
+	tokenRef = database.ref('_tokens/')
+	tokenRef.push().set({
+		'token': token
+	}).then(function() {
+		res.status(200).json({status: 'Token added'})
+	})
 })
 
 app.listen(PORT, () => console.log('Server Initialized'))
