@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-const SAFE_DIST = 15;
+const SAFE_DIST = 35;
 
 admin.initializeApp()
 
@@ -20,19 +20,16 @@ function distance(lat1, lon1, lat2, lon2) {
 exports.postEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 	.onCreate((snapshot, context) => {
 		var event_dict = snapshot.val();
-		console.log(event_dict);
 		var buildingId = context.params.buildingId;
 		//Check distances between point and exits
 		//From for loop exit_ref;
-		var ret = false;
 		database.ref(buildingId + '/exit').once('value', function(s) {
 			var exits = s.val();
 			for(var e in exits) {
 				var exit = exits[e];
 				var is_in_danger = distance(event_dict.lat, event_dict.lon, exit.lat, exit.lon);
-				console.log(is_in_danger + " " + e);
+				console.log(is_in_danger);
 				if(is_in_danger <= SAFE_DIST) {
-					ret = true;
 					database.ref(buildingId + '/exit/' + e).update({status: false})
 				}
 			}
@@ -41,7 +38,6 @@ exports.postEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 		database.ref('_tokens').once('value', function(snapshot) {
 			snapshot.forEach(function(child) {
 				var token = child.val()['token'];
-				console.log(token);
 				admin.messaging().send({
 					token: token,
 					data: {
@@ -50,7 +46,6 @@ exports.postEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 				});
 			});
 		});
-		
 		return true;
 })
 
@@ -66,10 +61,10 @@ exports.removeEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 				for(var e in exits) {
 					var exit = exits[e];
 					var ret = true;
+					//This feels bad
 					for(var ev in events) {
 						var evt = events[ev];
 						var is_in_danger = distance(evt.lat, evt.lon, exit.lat, exit.lon);
-						console.log(is_in_danger + " " + e);
 						if(is_in_danger <= SAFE_DIST) {
 							ret = false;
 							break;
@@ -82,7 +77,6 @@ exports.removeEvent = functions.database.ref('/{buildingId}/event/{eventId}')
 		database.ref('_tokens').once('value', function(snapshot) {
 			snapshot.forEach(function(child) {
 				var token = child.val()['token'];
-				console.log(token);
 				admin.messaging().send({
 					token: token,
 					data: {
