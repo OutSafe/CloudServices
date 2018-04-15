@@ -43,7 +43,7 @@ app.post('/:buildingId/exit', function(req, res) {
 		'lat': body.lat,
 		'lon': body.lon,
 		'el': body.el,
-		'type': (body.type?body.type:'exit'),
+		'type': (body.type?body.type:'door'),
 		'status': true
 	}).then(function() {
 		retRef.once('value', function(snapshot) {
@@ -113,7 +113,7 @@ app.post('/:buildingId/event', function(req, res) {
 		'lat': body.lat,
 		'lon': body.lon,
 		'el': body.el,
-		'eventType': eventType
+		'eventType': body.eventType
 	}).then(function() {
 		retRef.once('value', function(snapshot) {
 			ret = snapshot.val()
