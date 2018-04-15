@@ -6,7 +6,7 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 
 var firebase = require('firebase-admin')
-var firebase_config = require('./Codefest2018-c9de1c4a80a1.json')
+var firebase_config = require('private/Codefest2018-c9de1c4a80a1.json')
 
 firebase.initializeApp({
   credential: firebase.credential.cert(firebase_config),
